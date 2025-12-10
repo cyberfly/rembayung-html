@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rembayung - Authentic Malay Cuisine</title>
+    <meta name="description" content="Experience the rich flavors of authentic Malay cuisine in a warm and inviting atmosphere.">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Alpine.js -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    
+    <!-- Motion One -->
+    <script src="https://cdn.jsdelivr.net/npm/motion@11.11.13/dist/motion.js"></script>
+    
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { // Rich Browns
+                            50: '#f7f6f5',
+                            100: '#ecebe9',
+                            200: '#dcdad7',
+                            300: '#c4c0bb',
+                            400: '#a7a09a',
+                            500: '#8c827b',
+                            600: '#706660',
+                            700: '#5d534e', // ~#5D4037
+                            800: '#4e433e', // ~#4E342E
+                            900: '#413833',
+                            950: '#2a2420'  // ~#212121
+                        },
+                        accent: { // Muted Greens
+                            50: '#f1f8f1',
+                            100: '#e3f0e3',
+                            200: '#cbe1cb',
+                            300: '#a9cba9',
+                            400: '#82b082',
+                            500: '#619561', // ~#4CAF50
+                            600: '#4a774a', // ~#388E3C
+                            700: '#3a5e3a',
+                            800: '#304b30',
+                            900: '#283e28',
+                            950: '#172517'
+                        },
+                        highlight: { // Gold/Brass
+                            50: '#fffbeb',
+                            100: '#fff5c7',
+                            200: '#ffea8a',
+                            300: '#ffdd4d', // ~#FFD700
+                            400: '#ffcf26',
+                            500: '#f9b913',
+                            600: '#d8920b',
+                            700: '#b36b09',
+                            800: '#92510c',
+                            900: '#78400f',
+                            950: '#452103'
+                        },
+                        food: { // Warm Oranges/Reds
+                            400: '#FF7043',
+                            600: '#E64A19'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        serif: ['Lora', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Lora:wght@400;500;600&display=swap');
+        [x-cloak] {
+            display: none !important;
+        }
+        .hero-bg {
+            background-image: url('images/image copy 2.png');
+            background-size: cover;
+            background-position: center;
+            position: relative;
+        }
+        .hero-bg::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.6);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+    </style>
+</head>
+<body class="bg-brand-50 dark:bg-brand-950 text-brand-900 dark:text-brand-100 font-sans transition-colors duration-300">
+    
+    <!-- Header/Navigation -->
+    <header x-data="{ mobileMenuOpen: false, darkMode: true }" @keydown.escape.window="mobileMenuOpen = false" class="fixed top-0 left-0 right-0 z-50 bg-brand-50/80 dark:bg-brand-950/80 backdrop-blur-md border-b border-brand-200 dark:border-brand-800 transition-all duration-300">
+        <nav class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <!-- Logo -->
+                <div class="text-2xl font-bold font-serif text-brand-800 dark:text-brand-100 tracking-wide">
+                    Rembayung
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center gap-8 font-medium">
+                    <a href="#hero" class="hover:text-highlight-500 transition-colors relative group">
+                        Home
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#about" class="hover:text-highlight-500 transition-colors relative group">
+                        About
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#menu" class="hover:text-highlight-500 transition-colors relative group">
+                        Menu
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#gallery" class="hover:text-highlight-500 transition-colors relative group">
+                        Gallery
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#booking" class="hover:text-highlight-500 transition-colors relative group">
+                        Booking
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                    <a href="#contact" class="hover:text-highlight-500 transition-colors relative group">
+                        Contact
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-highlight-500 transition-all group-hover:w-full"></span>
+                    </a>
+                </div>
+                
+                <!-- Dark Mode Toggle & Mobile Menu Button -->
+                <div class="flex items-center gap-4">
+                    <button @click="darkMode = !darkMode; document.documentElement.classList.toggle('dark')" class="p-2 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900 transition-colors text-brand-600 dark:text-brand-300" aria-label="Toggle Dark Mode">
+                        <svg x-show="!darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path>
+                        </svg>
+                        <svg x-show="darkMode" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                    
+                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="md:hidden p-2 rounded-lg hover:bg-brand-100 dark:hover:bg-brand-900 transition-colors text-brand-600 dark:text-brand-300" aria-label="Open Menu">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu -->
+            <div x-show="mobileMenuOpen" x-cloak x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-150" x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95" class="md:hidden mt-4 pb-4 flex flex-col gap-4 font-medium border-t border-brand-200 dark:border-brand-800 pt-4">
+                <a href="#hero" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">Home</a>
+                <a href="#about" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">About</a>
+                <a href="#menu" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">Menu</a>
+                <a href="#gallery" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">Gallery</a>
+                <a href="#booking" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">Booking</a>
+                <a href="#contact" @click="mobileMenuOpen = false" class="block px-3 py-2 rounded-md hover:bg-brand-100 dark:hover:bg-brand-900 hover:text-highlight-500 transition-colors">Contact</a>
+            </div>
+        </nav>
+    </header>
+    
+    <!-- Main Content -->
+    <main>
+        
+        <!-- Hero Section -->
+        <!-- Hero Section -->
+        <section id="hero" class="hero-bg min-h-screen flex items-center relative overflow-hidden">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-12 items-center relative z-10">
+                <!-- Text Content -->
+                <div class="text-center md:text-left text-white pt-20 md:pt-0">
+                    <h1 class="text-5xl md:text-7xl font-bold font-serif mb-6 text-shadow-lg animate-fade-in-down tracking-tight leading-tight">
+                        Savor Authentic <br><span class="text-highlight-400">Malay Flavors</span>
+                    </h1>
+                    <p class="text-xl md:text-2xl text-brand-100 mb-8 max-w-lg mx-auto md:mx-0 animate-fade-in-up font-light">
+                        Experience the heart of Malaysian cuisine in a warm, inviting atmosphere.
+                    </p>
+                    <a href="#menu" class="inline-block px-8 py-3 bg-highlight-500 text-brand-950 rounded-full font-semibold hover:bg-highlight-400 hover:shadow-lg transform hover:scale-105 transition-all duration-300 animate-fade-in">
+                        View Our Menu
+                    </a>
+                </div>
+
+                <!-- Image Composition -->
+                <div class="hidden md:block relative h-[600px] w-full animate-fade-in">
+                    <!-- Floating Images Composition -->
+                    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-full">
+                        
+                        <!-- Satay (Back Left) -->
+                        <div class="absolute top-20 left-0 w-64 h-64 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 transform -rotate-6 hover:rotate-0 transition-transform duration-500 z-10">
+                            <img src="images/satay_stock.jpg" alt="Satay" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Image (Back Right) -->
+                        <div class="absolute top-32 right-4 w-60 h-60 rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20 transform rotate-12 hover:rotate-0 transition-transform duration-500 z-10">
+                            <img src="images/image.png" alt="Ambiance" class="w-full h-full object-cover">
+                        </div>
+
+                        <!-- Nasi Lemak (Center Front) -->
+                        <div class="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-80 h-80 rounded-full overflow-hidden shadow-2xl border-4 border-highlight-500/50 z-20 hover:scale-105 transition-transform duration-500">
+                            <img src="images/nasi_lemak_gen.png" alt="Nasi Lemak" class="w-full h-full object-cover">
+                        </div>
+                        
+                        <!-- Decorative Glow -->
+                        <div class="absolute -z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] bg-brand-900/40 rounded-full blur-3xl"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- About Section -->
+        <section id="about" class="py-24 bg-brand-50 dark:bg-brand-900">
+            <div class="container mx-auto px-4 grid md:grid-cols-2 gap-16 items-center">
+                <div class="about-image relative">
+                    <div class="absolute inset-0 bg-highlight-500 rounded-lg transform translate-x-4 translate-y-4 opacity-20"></div>
+                    <img src="images/image copy 6.png" alt="Restaurant Interior" class="relative rounded-lg shadow-2xl w-full h-auto object-cover" style="max-height: 500px;">
+                </div>
+                <div class="about-text">
+                    <h4 class="text-highlight-600 dark:text-highlight-400 font-bold uppercase tracking-widest mb-2">Our Story</h4>
+                    <h2 class="text-4xl md:text-5xl font-bold font-serif mb-6 text-brand-800 dark:text-brand-100">Tradition on a Plate</h2>
+                    <p class="text-lg text-brand-600 dark:text-brand-300 mb-6 leading-relaxed">
+                        Rembayung brings the soul of Malaysian culinary traditions to your table. We are passionate about using fresh, locally-sourced ingredients to create authentic dishes that celebrate the rich and diverse flavors of Malay cuisine.
+                    </p>
+                    <p class="text-lg text-brand-600 dark:text-brand-300 mb-8 leading-relaxed">
+                        Our warm and inviting space, inspired by nature and Malaysian heritage, is the perfect setting for a memorable dining experience.
+                    </p>
+                    <a href="#contact" class="inline-block px-8 py-3 border-2 border-brand-800 dark:border-brand-200 text-brand-800 dark:text-brand-200 rounded-full font-semibold hover:bg-brand-800 hover:text-white dark:hover:bg-brand-200 dark:hover:text-brand-900 transition-all duration-300">
+                        Visit Us
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Menu Highlights Section -->
+        <section id="menu" class="py-24 bg-white dark:bg-brand-950">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h4 class="text-highlight-600 dark:text-highlight-400 font-bold uppercase tracking-widest mb-2">Discover</h4>
+                    <h2 class="text-4xl md:text-5xl font-bold font-serif text-brand-800 dark:text-brand-100">Taste of Malaysia</h2>
+                </div>
+                
+                <div class="grid md:grid-cols-3 gap-8">
+                    <!-- Menu Item 1 -->
+                    <div class="menu-item group bg-brand-50 dark:bg-brand-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                        <div class="overflow-hidden h-64">
+                            <img src="images/nasi_lemak_gen.png" alt="Nasi Lemak" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-semibold font-serif text-brand-800 dark:text-brand-100">Nasi Lemak</h3>
+                                <span class="font-bold text-xl text-highlight-600 dark:text-highlight-400">$12.99</span>
+                            </div>
+                            <p class="text-brand-600 dark:text-brand-300 mb-6">Coconut rice served with sambal, anchovies, peanuts, and egg.</p>
+                            <button class="text-brand-800 dark:text-brand-200 font-semibold hover:text-highlight-500 transition-colors flex items-center gap-2">
+                                Order Now 
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 2 -->
+                    <div class="menu-item group bg-brand-50 dark:bg-brand-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                        <div class="overflow-hidden h-64">
+                            <img src="images/satay_stock.jpg" alt="Satay" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-semibold font-serif text-brand-800 dark:text-brand-100">Satay</h3>
+                                <span class="font-bold text-xl text-highlight-600 dark:text-highlight-400">$10.99</span>
+                            </div>
+                            <p class="text-brand-600 dark:text-brand-300 mb-6">Grilled skewered meat served with peanut sauce.</p>
+                            <button class="text-brand-800 dark:text-brand-200 font-semibold hover:text-highlight-500 transition-colors flex items-center gap-2">
+                                Order Now 
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Menu Item 3 -->
+                    <div class="menu-item group bg-brand-50 dark:bg-brand-900 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden">
+                        <div class="overflow-hidden h-64">
+                            <img src="images/rendang_stock.jpg" alt="Rendang" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500">
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-2xl font-semibold font-serif text-brand-800 dark:text-brand-100">Rendang</h3>
+                                <span class="font-bold text-xl text-highlight-600 dark:text-highlight-400">$15.99</span>
+                            </div>
+                            <p class="text-brand-600 dark:text-brand-300 mb-6">Slow-cooked beef in coconut milk and spices.</p>
+                            <button class="text-brand-800 dark:text-brand-200 font-semibold hover:text-highlight-500 transition-colors flex items-center gap-2">
+                                Order Now 
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-16">
+                    <a href="#" class="inline-block px-10 py-4 bg-brand-800 dark:bg-brand-200 text-white dark:text-brand-900 rounded-full font-semibold hover:bg-brand-700 dark:hover:bg-white hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        View Full Menu
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section id="gallery" class="py-24 bg-brand-50 dark:bg-brand-900">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h4 class="text-highlight-600 dark:text-highlight-400 font-bold uppercase tracking-widest mb-2">Gallery</h4>
+                    <h2 class="text-4xl md:text-5xl font-bold font-serif text-brand-800 dark:text-brand-100">Our Ambiance & Food</h2>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                    <div class="gallery-item overflow-hidden rounded-xl shadow-lg"><img src="images/image.png" alt="Gallery Image 1" class="w-full h-full object-cover aspect-square cursor-pointer hover:scale-110 transition-transform duration-500"></div>
+                    <div class="gallery-item overflow-hidden rounded-xl shadow-lg"><img src="images/image copy 5.png" alt="Gallery Image 2" class="w-full h-full object-cover aspect-square cursor-pointer hover:scale-110 transition-transform duration-500"></div>
+                    <div class="gallery-item overflow-hidden rounded-xl shadow-lg"><img src="images/image copy 3.png" alt="Gallery Image 3" class="w-full h-full object-cover aspect-square cursor-pointer hover:scale-110 transition-transform duration-500"></div>
+                    <div class="gallery-item overflow-hidden rounded-xl shadow-lg"><img src="images/image copy 6.png" alt="Gallery Image 4" class="w-full h-full object-cover aspect-square cursor-pointer hover:scale-110 transition-transform duration-500"></div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Booking Section -->
+        <section id="booking" class="py-24 bg-white dark:bg-brand-950">
+            <div class="container mx-auto px-4">
+                <div class="text-center mb-16">
+                    <h4 class="text-highlight-600 dark:text-highlight-400 font-bold uppercase tracking-widest mb-2">Reservations</h4>
+                    <h2 class="text-4xl md:text-5xl font-bold font-serif text-brand-800 dark:text-brand-100">Book Your Table</h2>
+                </div>
+                
+                <div class="max-w-3xl mx-auto bg-brand-50 dark:bg-brand-900 rounded-2xl shadow-xl p-8 md:p-12 border border-brand-100 dark:border-brand-800" x-data="{ booked: false }">
+                    <form @submit.prevent="booked = true" x-show="!booked" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Name</label>
+                                <input type="text" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Phone Number</label>
+                                <input type="tel" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors">
+                            </div>
+                        </div>
+                        <div class="grid md:grid-cols-3 gap-6">
+                            <div>
+                                <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Date</label>
+                                <input type="date" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Time</label>
+                                <input type="time" required class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors">
+                            </div>
+                            <div>
+                                <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Guests</label>
+                                <select class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors">
+                                    <option>2 People</option>
+                                    <option>3 People</option>
+                                    <option>4 People</option>
+                                    <option>5 People</option>
+                                    <option>6+ People</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block text-brand-700 dark:text-brand-300 font-semibold mb-2">Special Requests</label>
+                            <textarea rows="3" class="w-full px-4 py-3 rounded-lg bg-white dark:bg-brand-800 border border-brand-200 dark:border-brand-700 text-brand-900 dark:text-brand-100 focus:outline-none focus:border-highlight-500 focus:ring-1 focus:ring-highlight-500 transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="w-full py-4 bg-highlight-500 text-brand-950 rounded-lg font-bold text-lg hover:bg-highlight-400 hover:shadow-lg transform hover:scale-[1.02] transition-all duration-300">
+                            Confirm Reservation
+                        </button>
+                    </form>
+                    
+                    <div x-show="booked" x-cloak class="text-center py-12 animate-fade-in">
+                        <div class="w-20 h-20 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <svg class="w-10 h-10 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                        </div>
+                        <h3 class="text-2xl font-bold font-serif text-brand-800 dark:text-brand-100 mb-4">Reservation Received!</h3>
+                        <p class="text-brand-600 dark:text-brand-300 mb-8">Thank you for booking with us. We look forward to serving you.</p>
+                        <button @click="booked = false" class="text-highlight-600 dark:text-highlight-400 font-semibold hover:underline">Make another reservation</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Visit Section with Map Animation -->
+        <section id="contact" class="py-24 bg-white dark:bg-brand-950 relative overflow-hidden min-h-[700px]">
+            <!-- Kampung Baru Map Background -->
+            <div class="absolute inset-0 z-0">
+                <!-- Stylized Map SVG Background -->
+                <svg class="absolute inset-0 w-full h-full opacity-30 dark:opacity-15" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+                    <defs>
+                        <!-- Road gradient -->
+                        <linearGradient id="roadGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#6B7280;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#9CA3AF;stop-opacity:1" />
+                        </linearGradient>
+                        <!-- Building gradient -->
+                        <linearGradient id="buildingGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#D1D5DB;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#9CA3AF;stop-opacity:1" />
+                        </linearGradient>
+                        <!-- Park/Green area gradient -->
+                        <linearGradient id="parkGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" style="stop-color:#86EFAC;stop-opacity:0.5" />
+                            <stop offset="100%" style="stop-color:#4ADE80;stop-opacity:0.3" />
+                        </linearGradient>
+                    </defs>
+                    
+                    <!-- Base Map Background -->
+                    <rect width="800" height="600" fill="#F3F4F6" class="dark:fill-brand-900"/>
+                    
+                    <!-- River (Sungai Gombak representation) -->
+                    <path d="M0 250 Q150 200, 200 280 T400 260 T600 300 T800 250" stroke="#60A5FA" stroke-width="20" fill="none" opacity="0.4"/>
+                    
+                    <!-- Main Roads -->
+                    <path d="M0 350 L800 350" stroke="url(#roadGradient)" stroke-width="12"/>
+                    <path d="M400 0 L400 600" stroke="url(#roadGradient)" stroke-width="12"/>
+                    <path d="M0 180 L300 180 L350 220 L800 220" stroke="url(#roadGradient)" stroke-width="8"/>
+                    <path d="M100 0 L100 350" stroke="url(#roadGradient)" stroke-width="8"/>
+                    <path d="M600 0 L600 450 L800 450" stroke="url(#roadGradient)" stroke-width="8"/>
+                    <path d="M200 350 L200 600" stroke="url(#roadGradient)" stroke-width="6"/>
+                    <path d="M0 500 L400 500 L450 450 L800 450" stroke="url(#roadGradient)" stroke-width="6"/>
+                    
+                    <!-- Secondary Roads -->
+                    <path d="M50 100 L250 100" stroke="#9CA3AF" stroke-width="4" opacity="0.6"/>
+                    <path d="M500 120 L700 120" stroke="#9CA3AF" stroke-width="4" opacity="0.6"/>
+                    <path d="M300 400 L500 400" stroke="#9CA3AF" stroke-width="4" opacity="0.6"/>
+                    <path d="M650 350 L650 550" stroke="#9CA3AF" stroke-width="4" opacity="0.6"/>
+                    
+                    <!-- Buildings (representing Kampung Baru area) -->
+                    <g class="buildings" opacity="0.6">
+                        <!-- Traditional houses cluster -->
+                        <rect x="120" y="380" width="60" height="40" rx="2" fill="url(#buildingGradient)"/>
+                        <rect x="130" y="430" width="40" height="50" rx="2" fill="url(#buildingGradient)"/>
+                        <rect x="220" y="380" width="55" height="45" rx="2" fill="url(#buildingGradient)"/>
+                        <rect x="300" y="420" width="70" height="50" rx="2" fill="url(#buildingGradient)"/>
+                        
+                        <!-- Modern buildings -->
+                        <rect x="450" y="260" width="40" height="70" rx="2" fill="#6B7280"/>
+                        <rect x="500" y="280" width="35" height="50" rx="2" fill="#6B7280"/>
+                        <rect x="550" y="250" width="30" height="80" rx="2" fill="#6B7280"/>
+                        
+                        <!-- More traditional structures -->
+                        <rect x="50" y="400" width="45" height="35" rx="2" fill="url(#buildingGradient)"/>
+                        <rect x="420" y="380" width="50" height="40" rx="2" fill="url(#buildingGradient)"/>
+                        <rect x="520" y="400" width="45" height="35" rx="2" fill="url(#buildingGradient)"/>
+                        
+                        <!-- KL Tower representation -->
+                        <circle cx="700" cy="150" r="25" fill="#9CA3AF" opacity="0.5"/>
+                        <rect x="695" y="150" width="10" height="60" fill="#6B7280"/>
+                    </g>
+                    
+                    <!-- Green Spaces / Parks -->
+                    <ellipse cx="150" cy="280" rx="80" ry="40" fill="url(#parkGradient)"/>
+                    <ellipse cx="550" cy="500" rx="60" ry="30" fill="url(#parkGradient)"/>
+                    
+                    <!-- Masjid Jamek Area representation -->
+                    <circle cx="380" cy="345" r="20" fill="#FCD34D" opacity="0.3"/>
+                    
+                    <!-- Points of Interest markers -->
+                    <circle cx="250" cy="350" r="6" fill="#EF4444" opacity="0.5"/>
+                    <circle cx="500" cy="350" r="6" fill="#3B82F6" opacity="0.5"/>
+                    <circle cx="350" cy="450" r="6" fill="#10B981" opacity="0.5"/>
+                </svg>
+                
+                <!-- Map Grid Overlay -->
+                <div class="absolute inset-0 opacity-5" style="background-image: linear-gradient(rgba(0,0,0,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+            </div>
+            
+            <!-- Map Labels -->
+            <div class="absolute inset-0 z-5 overflow-hidden pointer-events-none">
+                <span class="absolute text-xs font-semibold text-brand-400/50 dark:text-brand-600/30" style="top: 15%; left: 8%;">Jalan Raja Muda</span>
+                <span class="absolute text-xs font-semibold text-brand-400/50 dark:text-brand-600/30" style="top: 58%; left: 48%;">Jalan Raja Alang</span>
+                <span class="absolute text-xs font-semibold text-brand-400/50 dark:text-brand-600/30" style="top: 32%; left: 72%;">Kampung Baru</span>
+                <span class="absolute text-xs font-semibold text-accent-500/40 dark:text-accent-600/30" style="top: 28%; left: 22%;">Sungai Gombak</span>
+            </div>
+
+            <!-- Decorative background elements -->
+            <div class="absolute top-0 left-0 w-64 h-64 bg-highlight-500/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-96 h-96 bg-accent-500/10 rounded-full blur-3xl translate-x-1/3 translate-y-1/3"></div>
+
+            <!-- Car Animation Container -->
+            <div id="car-animation-container" class="absolute inset-0 z-10 pointer-events-none overflow-hidden">
+                <!-- Animated Car -->
+                <div id="animated-car" class="absolute" style="left: -80px; top: 70%; transform: rotate(-5deg); filter: drop-shadow(0 4px 6px rgba(0,0,0,0.15));">
+                    <svg width="70" height="35" viewBox="0 0 70 35" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Car Shadow -->
+                        <ellipse cx="35" cy="33" rx="30" ry="3" fill="rgba(0,0,0,0.15)"/>
+                        
+                        <!-- Car Body -->
+                        <path d="M6 23 L10 14 Q14 9 24 9 L46 9 Q56 9 60 14 L64 21 L64 26 L6 26 L6 23Z" fill="#DC2626"/>
+                        
+                        <!-- Car Roof -->
+                        <path d="M18 9 Q21 2 30 2 L40 2 Q49 2 52 9 L18 9" fill="#B91C1C"/>
+                        
+                        <!-- Windows -->
+                        <path d="M20 9 L23 4 L33 4 L33 9 Z" fill="#93C5FD" opacity="0.9"/>
+                        <path d="M37 9 L37 4 L47 4 L50 9 Z" fill="#93C5FD" opacity="0.9"/>
+                        
+                        <!-- Window reflection -->
+                        <path d="M21 7 L24 5 L30 5 L30 7 Z" fill="white" opacity="0.3"/>
+                        
+                        <!-- Headlights -->
+                        <rect x="61" y="16" width="6" height="4" rx="1" fill="#FCD34D"/>
+                        <rect x="61" y="21" width="6" height="3" rx="1" fill="#FCD34D" opacity="0.6"/>
+                        
+                        <!-- Taillights -->
+                        <rect x="4" y="17" width="4" height="5" rx="1" fill="#F87171"/>
+                        
+                        <!-- Front Wheel -->
+                        <circle cx="52" cy="26" r="6" fill="#1F2937"/>
+                        <circle cx="52" cy="26" r="3" fill="#6B7280"/>
+                        <circle cx="52" cy="26" r="1" fill="#374151"/>
+                        
+                        <!-- Rear Wheel -->
+                        <circle cx="18" cy="26" r="6" fill="#1F2937"/>
+                        <circle cx="18" cy="26" r="3" fill="#6B7280"/>
+                        <circle cx="18" cy="26" r="1" fill="#374151"/>
+                        
+                        <!-- Car Details -->
+                        <line x1="33" y1="12" x2="33" y2="26" stroke="#991B1B" stroke-width="0.5"/>
+                        <path d="M10 26 L60 26" stroke="#7F1D1D" stroke-width="1"/>
+                        
+                        <!-- Door handle -->
+                        <rect x="25" y="16" width="5" height="1.5" rx="0.5" fill="#991B1B"/>
+                        <rect x="40" y="16" width="5" height="1.5" rx="0.5" fill="#991B1B"/>
+                    </svg>
+                </div>
+                
+                <!-- Dust Trail Effect -->
+                <div id="dust-trail" class="absolute opacity-0" style="left: -120px; top: 73%;">
+                    <div class="flex gap-1 items-center">
+                        <div class="w-4 h-4 rounded-full bg-brand-400/30 dark:bg-brand-600/30"></div>
+                        <div class="w-3 h-3 rounded-full bg-brand-400/20 dark:bg-brand-600/20"></div>
+                        <div class="w-2 h-2 rounded-full bg-brand-400/10 dark:bg-brand-600/10"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Location Pin (Destination) -->
+            <div id="location-pin" class="absolute z-15 opacity-0" style="right: 12%; top: 18%;">
+                <div class="relative">
+                    <!-- Pin Shadow -->
+                    <div class="absolute top-14 left-1/2 -translate-x-1/2 w-8 h-3 bg-black/20 rounded-full blur-sm"></div>
+                    
+                    <!-- Animated Pin -->
+                    <div id="pin-bounce" class="relative">
+                        <svg width="48" height="60" viewBox="0 0 48 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- Pin Shape -->
+                            <path d="M24 0C10.745 0 0 10.745 0 24C0 42 24 60 24 60C24 60 48 42 48 24C48 10.745 37.255 0 24 0Z" fill="#DC2626"/>
+                            <path d="M24 3C12.402 3 3 12.402 3 24C3 39 24 55 24 55C24 55 45 39 45 24C45 12.402 35.598 3 24 3Z" fill="#EF4444"/>
+                            
+                            <!-- Inner Circle -->
+                            <circle cx="24" cy="24" r="12" fill="white"/>
+                            <circle cx="24" cy="24" r="9" fill="#FBBF24"/>
+                            
+                            <!-- Restaurant Icon (Fork & Knife) -->
+                            <path d="M21 19 L21 29" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M27 19 L27 29" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                            <path d="M18 23 L30 23" stroke="white" stroke-width="2" stroke-linecap="round"/>
+                        </svg>
+                    </div>
+                    
+                    <!-- Pulse Effect -->
+                    <div class="absolute top-6 left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-red-500/20 animate-ping"></div>
+                    
+                    <!-- Label -->
+                    <div id="pin-label" class="absolute -right-36 top-3 bg-white dark:bg-brand-800 px-4 py-2 rounded-xl shadow-lg border border-brand-200 dark:border-brand-700 whitespace-nowrap opacity-0">
+                        <span class="text-sm font-bold text-brand-800 dark:text-brand-100">Rembayung</span>
+                        <p class="text-xs text-brand-500 dark:text-brand-400">Kampung Baru</p>
+                        <div class="absolute left-0 top-1/2 -translate-x-2 -translate-y-1/2 w-0 h-0 border-t-[6px] border-b-[6px] border-r-[8px] border-transparent border-r-white dark:border-r-brand-800"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container mx-auto px-4 text-center relative z-20 pt-4">
+                <h4 class="text-highlight-600 dark:text-highlight-400 font-bold uppercase tracking-widest mb-2">Find Us</h4>
+                <h2 class="text-4xl md:text-5xl font-bold font-serif mb-4 text-brand-800 dark:text-brand-100">Visit Us Today</h2>
+                <p class="text-brand-600 dark:text-brand-400 mb-8 max-w-md mx-auto">Located in the heart of Kampung Baru, Kuala Lumpur</p>
+                
+                <div class="max-w-2xl mx-auto bg-white/95 dark:bg-brand-900/95 backdrop-blur-sm p-8 rounded-2xl shadow-xl border border-brand-100 dark:border-brand-800">
+                    <p class="text-xl text-brand-700 dark:text-brand-300 mb-6 font-serif italic">
+                        "A true taste of Malaysia in every bite."
+                    </p>
+                    <div class="space-y-4 text-brand-600 dark:text-brand-400 mb-8">
+                        <p class="flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5 text-highlight-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            123 Jalan Raja Muda, Kampung Baru, Kuala Lumpur
+                        </p>
+                        <p class="flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5 text-highlight-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            +60 3 1234 5678
+                        </p>
+                    </div>
+                    <a href="https://maps.google.com/?q=Kampung+Baru+Kuala+Lumpur" target="_blank" class="inline-block px-8 py-3 bg-highlight-500 text-brand-950 rounded-full font-semibold hover:bg-highlight-400 hover:shadow-lg transform hover:scale-105 transition-all duration-300">
+                        Get Directions
+                    </a>
+                </div>
+            </div>
+            
+            <!-- Map Legend -->
+            <div class="absolute bottom-4 left-4 z-20 bg-white/90 dark:bg-brand-900/90 backdrop-blur-sm px-3 py-2 rounded-lg shadow-md border border-brand-200 dark:border-brand-700">
+                <div class="flex items-center gap-2 text-xs text-brand-600 dark:text-brand-400">
+                    <div class="w-3 h-3 rounded-full bg-red-500"></div>
+                    <span>Restaurant</span>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-brand-900 text-brand-200 py-16">
+        <div class="container mx-auto px-4">
+            <div class="grid md:grid-cols-4 gap-12 mb-12">
+                <div class="col-span-1 md:col-span-1">
+                    <h3 class="text-3xl font-bold font-serif mb-6 text-white">Rembayung</h3>
+                    <p class="text-brand-400 mb-6">Authentic Malay Cuisine served with passion and tradition.</p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-brand-400 hover:text-white transition-colors">
+                            <span class="sr-only">Facebook</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+                        </a>
+                        <a href="#" class="text-brand-400 hover:text-white transition-colors">
+                            <span class="sr-only">Instagram</span>
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-6 text-white uppercase tracking-wider">Quick Links</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="hover:text-highlight-500 transition-colors">About Us</a></li>
+                        <li><a href="#menu" class="hover:text-highlight-500 transition-colors">Menu</a></li>
+                        <li><a href="#gallery" class="hover:text-highlight-500 transition-colors">Gallery</a></li>
+                        <li><a href="#contact" class="hover:text-highlight-500 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-6 text-white uppercase tracking-wider">Opening Hours</h4>
+                    <ul class="space-y-3">
+                        <li class="flex justify-between"><span>Mon - Fri:</span> <span>10am - 10pm</span></li>
+                        <li class="flex justify-between"><span>Sat - Sun:</span> <span>9am - 11pm</span></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-6 text-white uppercase tracking-wider">Newsletter</h4>
+                    <p class="text-brand-400 mb-4 text-sm">Subscribe to get special offers and updates.</p>
+                    <form class="flex flex-col gap-2">
+                        <input type="email" placeholder="Your email" class="px-4 py-2 rounded bg-brand-800 border border-brand-700 text-white focus:outline-none focus:border-highlight-500">
+                        <button type="submit" class="px-4 py-2 bg-highlight-500 text-brand-900 rounded font-semibold hover:bg-highlight-400 transition-colors">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+            <div class="border-t border-brand-800 mt-12 pt-8 text-center text-brand-500 text-sm">
+                <p>&copy; 2025 Rembayung. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Motion.js Initialization -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const { animate, inView, stagger } = Motion;
+
+            // Hero animations
+            animate(".animate-fade-in-down", { opacity: [0, 1], y: [-30, 0] }, { duration: 1, delay: 0.2, easing: "ease-out" });
+            animate(".animate-fade-in-up", { opacity: [0, 1], y: [30, 0] }, { duration: 1, delay: 0.4, easing: "ease-out" });
+            animate(".animate-fade-in", { opacity: [0, 1] }, { duration: 1, delay: 0.6 });
+
+            // About section image
+            inView('.about-image', () => {
+                animate('.about-image', { opacity: [0, 1], x: [-50, 0] }, { duration: 0.8, easing: "ease-out" });
+            });
+            inView('.about-text', () => {
+                animate('.about-text > *', { opacity: [0, 1], x: [50, 0] }, { duration: 0.8, delay: stagger(0.1), easing: "ease-out" });
+            });
+
+            // Menu items
+            inView('.menu-item', (info) => {
+                animate(info.target, 
+                    { opacity: [0, 1], y: [50, 0] },
+                    { duration: 0.6, delay: Array.from(document.querySelectorAll('.menu-item')).indexOf(info.target) * 0.1, easing: "ease-out" }
+                );
+            });
+
+            // Gallery items
+            inView('.gallery-item', (info) => {
+                animate(info.target, 
+                    { opacity: [0, 1], scale: [0.8, 1] },
+                    { duration: 0.5, delay: Array.from(document.querySelectorAll('.gallery-item')).indexOf(info.target) * 0.05, easing: "ease-out" }
+                );
+            });
+
+            // Visit Section - Car Animation to Restaurant Location
+            let carAnimationPlayed = false;
+            inView('#contact', (info) => {
+                if (carAnimationPlayed) return;
+                carAnimationPlayed = true;
+
+                const car = document.getElementById('animated-car');
+                const dustTrail = document.getElementById('dust-trail');
+                const locationPin = document.getElementById('location-pin');
+                const pinBounce = document.getElementById('pin-bounce');
+                const pinLabel = document.getElementById('pin-label');
+                
+                if (!car || !locationPin) return;
+
+                // Get container dimensions for responsive positioning
+                const container = info.target;
+                const containerWidth = container.offsetWidth;
+                const containerHeight = container.offsetHeight;
+                
+                // Calculate end position (near the pin)
+                const endX = containerWidth * 0.78;
+                const endY = containerHeight * 0.25;
+
+                // Show location pin first with drop animation
+                animate(locationPin, 
+                    { opacity: [0, 1], y: [-60, 0] }, 
+                    { duration: 0.7, easing: [0.34, 1.56, 0.64, 1] }
+                );
+
+                // Continuous pin bounce animation
+                const startPinBounce = () => {
+                    if (pinBounce) {
+                        animate(pinBounce, 
+                            { y: [0, -10, 0] }, 
+                            { duration: 1.8, easing: "ease-in-out" }
+                        ).finished.then(startPinBounce);
+                    }
+                };
+                setTimeout(startPinBounce, 800);
+
+                // Show pin label after car arrives
+                setTimeout(() => {
+                    if (pinLabel) {
+                        animate(pinLabel, 
+                            { opacity: [0, 1], x: [15, 0] }, 
+                            { duration: 0.5, easing: "ease-out" }
+                        );
+                    }
+                }, 3200);
+
+                // Car driving animation - takes 3 seconds
+                const carDuration = 3;
+                
+                // Define curved path keyframes
+                const keyframes = {
+                    x: [-80, containerWidth * 0.12, containerWidth * 0.32, containerWidth * 0.52, containerWidth * 0.68, endX - 100],
+                    y: [containerHeight * 0.70, containerHeight * 0.58, containerHeight * 0.46, containerHeight * 0.36, containerHeight * 0.28, endY + 50],
+                    rotate: [-5, -10, -15, -18, -20, -22],
+                    scale: [1, 0.92, 0.85, 0.78, 0.72, 0.65]
+                };
+
+                // Animate the car along the curved path
+                animate(car, 
+                    { 
+                        left: keyframes.x.map(v => v + 'px'),
+                        top: keyframes.y.map(v => v + 'px'),
+                        rotate: keyframes.rotate,
+                        scale: keyframes.scale
+                    }, 
+                    { 
+                        duration: carDuration, 
+                        easing: "ease-in-out"
+                    }
+                );
+
+                // Dust trail follows the car
+                if (dustTrail) {
+                    animate(dustTrail, 
+                        { 
+                            opacity: [0, 0.7, 0.7, 0.5, 0.3, 0],
+                            left: keyframes.x.map(v => (v - 50) + 'px'),
+                            top: keyframes.y.map(v => (v + 15) + 'px'),
+                        }, 
+                        { 
+                            duration: carDuration, 
+                            easing: "ease-in-out",
+                            delay: 0.15
+                        }
+                    );
+                }
+
+                // Car arrives - small settle effect
+                setTimeout(() => {
+                    animate(car, 
+                        { scale: [0.65, 0.68, 0.65], y: [0, -4, 0] }, 
+                        { duration: 0.4, easing: "ease-out" }
+                    );
+                }, carDuration * 1000 + 100);
+
+            }, { amount: 0.25 });
+        });
+    </script>
+    
+</body>
+</html>
