@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rembayung HTML - Simple Experiment</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+        }
+        .experiment {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #e8f5e9;
+            border-left: 4px solid #4CAF50;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #fff3cd;
+            border-radius: 4px;
+            display: none;
+        }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌅 Rembayung HTML Experiment</h1>
+        
+        <div class="experiment">
+            <h2>Welcome to the Simple Experiment</h2>
+            <p>This is a basic HTML page demonstrating various HTML elements and a simple interactive feature.</p>
+            
+            <h3>List Example:</h3>
+            <ul>
+                <li>HTML Structure</li>
+                <li>CSS Styling</li>
+                <li>JavaScript Interaction</li>
+            </ul>
+            
+            <h3>Interactive Feature:</h3>
+            <button id="experimentButton">Click Me!</button>
+            <div id="output"></div>
+        </div>
+        
+        <footer>
+            <p>Simple HTML Experiment | Rembayung Project</p>
+        </footer>
+    </div>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('experimentButton');
+            const output = document.getElementById('output');
+            
+            if (!button || !output) return;
+            
+            button.addEventListener('click', function() {
+                const timestamp = new Date().toLocaleString();
+                
+                // Clear previous content
+                output.textContent = '';
+                
+                // Create elements safely
+                const successText = document.createElement('strong');
+                successText.textContent = 'Experiment Successful!';
+                
+                const firstBreak = document.createElement('br');
+                const timestampText = document.createTextNode('Button clicked at: ' + timestamp);
+                
+                const secondBreak = document.createElement('br');
+                const descriptionText = document.createTextNode('This demonstrates basic JavaScript interaction.');
+                
+                // Append elements to output
+                output.appendChild(successText);
+                output.appendChild(firstBreak);
+                output.appendChild(timestampText);
+                output.appendChild(secondBreak);
+                output.appendChild(descriptionText);
+                
+                output.style.display = 'block';
+            });
+        });
+    </script>
+</body>
+</html>
