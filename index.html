@@ -97,17 +97,17 @@
                 const successText = document.createElement('strong');
                 successText.textContent = 'Experiment Successful!';
                 
-                const timestampText = document.createElement('br');
-                const timestampLine = document.createTextNode('Button clicked at: ' + timestamp);
+                const firstBreak = document.createElement('br');
+                const timestampText = document.createTextNode('Button clicked at: ' + timestamp);
                 
-                const description = document.createElement('br');
+                const secondBreak = document.createElement('br');
                 const descriptionText = document.createTextNode('This demonstrates basic JavaScript interaction.');
                 
                 // Append elements to output
                 output.appendChild(successText);
+                output.appendChild(firstBreak);
                 output.appendChild(timestampText);
-                output.appendChild(timestampLine);
-                output.appendChild(description);
+                output.appendChild(secondBreak);
                 output.appendChild(descriptionText);
                 
                 output.style.display = 'block';
