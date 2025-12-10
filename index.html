@@ -48,6 +48,11 @@
             border-radius: 4px;
             display: none;
         }
+        footer {
+            margin-top: 30px;
+            text-align: center;
+            color: #666;
+        }
     </style>
 </head>
 <body>
@@ -66,26 +71,29 @@
             </ul>
             
             <h3>Interactive Feature:</h3>
-            <button onclick="showMessage()">Click Me!</button>
+            <button id="experimentButton">Click Me!</button>
             <div id="output"></div>
         </div>
         
-        <footer style="margin-top: 30px; text-align: center; color: #666;">
+        <footer>
             <p>Simple HTML Experiment | Rembayung Project</p>
         </footer>
     </div>
     
     <script>
-        function showMessage() {
-            const output = document.getElementById('output');
-            const timestamp = new Date().toLocaleString();
-            output.innerHTML = `
-                <strong>Experiment Successful!</strong><br>
-                Button clicked at: ${timestamp}<br>
-                This demonstrates basic JavaScript interaction.
-            `;
-            output.style.display = 'block';
-        }
+        document.addEventListener('DOMContentLoaded', function() {
+            const button = document.getElementById('experimentButton');
+            button.addEventListener('click', function() {
+                const output = document.getElementById('output');
+                const timestamp = new Date().toLocaleString();
+                output.innerHTML = `
+                    <strong>Experiment Successful!</strong><br>
+                    Button clicked at: ${timestamp}<br>
+                    This demonstrates basic JavaScript interaction.
+                `;
+                output.style.display = 'block';
+            });
+        });
     </script>
 </body>
 </html>
